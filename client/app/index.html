@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="user-scalable=no,minimum-scale=1,maximum-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Whitelabel Salesaid</title>
+  
+    <!-- build:js js/main.min.js -->
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/handlebars.js"></script>
+    <script src="js/Chart.js"></script>
+    <script src="js/main.js"></script>
+    <!-- build:js js/main.min.js -->
+
+    <!-- build:css css/main.min.css -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- endbuild -->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#004593">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+  </head>
+  <body>
+
+    <div class="content-placeholder" id="noScrolling"></div>
+
+      <script id="homePage" type="text/x-handlebars-template">
+        <div onclick="nextPage('entryTemplate')" class="homePage" style="background: url('{{headerImage}}')">
+          <div class="titleArea">
+            <h1>{{{title}}}</h1>
+            <h2>{{{subTitle}}}</h2>
+          </div>
+        </div>
+      </script>
+
+      <script id="entryTemplate" type="text/x-handlebars-template">
+        <div class="header-area">
+          <div class="container">
+            <img class="homeLogo" src="images/bdlogo.png">
+            <div class="header-container"> 
+              <h2>Optimisez vos lignes de perfusion</h2>
+              <img data-toggle="modal" data-target="#legalModal" class="float-right legal" src="images/legal.png"/>
+              <button type="button" class="btn btn-primary float-right info-button" data-toggle="modal" data-target="#infoModal">Info</button>
+            </div>
+          </div>
+        </div>
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true" onclick="shortenSubtitle()"><div class="tabNumber">1</div> Vos Données</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false" onclick="extendSubtitle()"><div class="tabNumber">2</div> Notre Ambition</a>
+            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false" onclick="extendSubtitle()"><div class="tabNumber">3</div>Notre Analyse</a>
+          </div>
+        </nav>
+        <div class="container">
+          <div class="row">
+            <div class="col-6">
+              <div class="title-area">
+                <div class="row no-gutters">
+                  <div class="col-1">
+                    <img src="images/titleicon.png">
+                  </div>
+                  <div class="col-11">
+                    <h2>VOTRE CONSOMMATION</h2>
+                    <h3 class="subtitle">annuelle</h3>
+                  </div>
+                </div>
+              </div>
+              <p class="grey">Optimisez vos lignes de perfusion en choisissant le bon dispositif pour le bon usage. <br> Analyse des consommation de dispositifs de</p>
+              
+              <ul class="product-selector">
+                <li data-toggle="modal" data-target="#simpleModal">
+                  <div class="productTitle blue">Perfuseur simple</div>
+                  <div class="productCount simpleTotal">{{results.simpleTotal}}</div>
+                </li>
+       
+                <li data-toggle="modal" data-target="#voiesModal">
+                  <div class="productTitle green">Perfuseurs 3 voies</div>
+                  <div class="productCount voiesTotal">{{results.voiesTotal}}</div>
+                </li>
+
+                <li data-toggle="modal" data-target="#sécuritéModal">
+                  <div class="productTitle teal">Perfuseur de sécurité</div>
+                  <div class="productCount sécuritéTotal">{{results.sécuritéTotal}}</div>
+                </li>
+              </ul>
+
+              <div class="title-area">
+                <div class="row no-gutters">
+                  <div class="col-1">
+                    <img src="images/titleicon.png">
+                  </div>
+                  <div class="col-11">
+                    <h2>VOTRE INVESTISSEMENT</h2> 
+                  </div>
+                </div>
+              </div>
+
+              <div class="external orange-area">
+                <div class="text-left"> 
+                </div>
+                <div class="text-right">
+                  <span class="total">0</span> &euro; 
+                </div>
+              </div>
+
+              <div class="modal fade" id="simpleModal" tabindex="-1" role="dialog" aria-labelledby="simpleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="simpleModalLabel">Info</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                      <table class="external table simple table-bordered">
+                        <tr>
+                          <th>Product Name</th>
+                          <th>Prices</th>
+                          <th>Quantités</th>
+                        </tr>
+                        {{#each products}}
+
+                          {{#ifvalue this.category value="simple"}}
+                            <tr>
+                              <td>{{this.name}} {{@index}}</td>
+                              <td class="hide"><input data-id={{@index}} class="form-control reference" type="text" /></td>
+                              <td><input data-id={{@index}} class="form-control cost" type="number" step="any" disabled value={{this.external.cost}} /></td>
+                              <td><input data-id={{@index}} class="form-control quantity" type="number" step="any" value="20"/></td>
+                            </tr>
+                          {{/ifvalue}}
+
+                        {{/each}}
+                        
+                        <tr>
+                          <th colspan="2">Total</th>
+                          <td><div class="form-control voiesTotal">{{this.voiesTotal}} <div/></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          
+
+              <div class="modal fade" id="voiesModal" tabindex="-1" role="dialog" aria-labelledby="voiesModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="voiesModalLabel">Info</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                      <table class="external table voies table-bordered">
+                        <tr>
+                          <th>Product Name</th>
+                          <th>Prices</th>
+                          <th>Quantités</th>
+                        </tr>
+                        {{#each products}}
+
+                          {{#ifvalue this.category value="voies"}}
+                            
+                            <tr>
+                              <td>{{this.name}} {{@index}}</td>
+                              <td class="hide"><input data-id={{@index}} class="form-control reference" type="text" /></td>
+                              <td"><input data-id={{@index}} class="form-control cost" type="number" step="any" disabled value={{this.external.cost}} /></td>
+                              <td><input data-id={{@index}} class="form-control quantity" type="number" step="any" value="20"/></td>
+                            </tr>
+                  
+                          {{/ifvalue}}
+
+                        {{/each}}
+                        <tr>
+                          <th colspan="2">Total</th>
+                          <td><div class="form-control voiesTotal">{{this.voiesTotal}} <div/></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+   
+              <div class="modal fade" id="sécuritéModal" tabindex="-1" role="dialog" aria-labelledby="sécuritéModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="sécuritéModalLabel">Info</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                      <table class="external table sécurité table-bordered">
+                        <tr>
+                          <th>Product Name</th>
+                          <th>Prices</th>
+                          <th>Quantités</th>
+                        </tr>
+                        
+                        {{#each products}}
+
+                          {{#ifvalue this.category value="sécurité"}}
+                            <tr>
+                              <td>{{this.name}} {{@index}}</td>
+                              <td class="hide"><input data-id={{@index}} class="form-control reference" type="text" /></td>
+                              <td><input data-id={{@index}} class="form-control cost" type="number" step="any" disabled value={{this.external.cost}} /></td>
+                              <td><input data-id={{@index}} class="form-control quantity" type="number" step="any" value="20"/></td>
+                            </tr>
+                          {{/ifvalue}}
+
+                        {{/each}}
+                        <tr>
+                          <th colspan="2">Total</th>
+                          <td><div class="form-control voiesTotal">{{this.voiesTotal}} <div/></td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+    
+            <div class="col-6 tab-content" id="nav-tabContent">
+              <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <div class="container-fluid">
+                  <div class="row">
+                    <canvas id="results-chart" width="500px" height="500px">No Data</canvas>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div id="product-area">
+                      <div class="scroll-area">
+                        <div class="row">
+                          
+                          {{#each products}}
+                            
+                            <div class="col-6">
+                              <div data-toggle="modal" data-target="#{{this.class}}" class="product">
+                                <div class="productTitle">
+                                  <div class="title">{{this.name}}</div>
+                                </div>
+                                <div class="productImage">
+                                  <img src={{this.image}} width="100%" />
+                                </div>
+                                <div class="productCost">
+                                  {{this.internal.cost}} 
+                                </div>
+                              </div>
+                            </div>
+                      
+                            <div class="modal fade" id="{{this.class}}" tabindex="-1" role="dialog" aria-labelledby="{{this.class}}Label" aria-hidden="true">
+                              <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="{{this.class}}Label">{{this.name}}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <img src={{this.referenceImage}} width="100%" />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                   
+                          {{/each}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                <div id="resultsModal">
+                  <div class="d-flex justify-content-around">
+                    <h2>Economies réalisées (€): <span class="difference">0</span></h2>
+                    <h2>Soit: <span class="profit">0</span>%</h2>
+                  </div>
+                  <canvas id="results-chart2" width="500px" height="500px">No Data</canvas>
+                  <div class="send-results">
+                    <input id="results-email" class="form-control" type="email" placeholder="Email" />
+                    <button type="button" class="btn btn-primary submit">Submit</button>
+                  </div>
+                  <div class="results-success">
+                    Your results have been sent to your email address
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Modal -->
+      <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="infoModalLabel">Info</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+              <h3>Calculateur de coûts informations d'utilisation:</h3>
+              <ul>
+                <li>Les solutions BD ont été calculées selon le modèle APHP à savoir 5% de perfuseurs sécurisés et 95% non sécurisés par établissement</li>
+                <li>Entrez directement dans le premier tableau les références, coûts unitaires et quantités des  produits actuels</li>
+                <li>Apparaitront automatiquement les solutions BD associées dans le deuxième tableau</li>
+                <li>Un graphique vous permettra d'observer le budget actualisé avec la solution BD</li>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hide">
+        <div class="col-6">
+          <table class="internal table table-bordered">
+            <thead>
+              <tr>
+                <th>Matériel actuel</th>
+                <th>Références</th>
+                <th>Coût unitaire €</th>
+                <th>Quantités</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each products}}
+                <tr>
+                  <td>{{this.name}}</td>
+                  <td><input data-id={{@index}} class="form-control reference" type="text" disabled value={{this.internal.reference}} /></td>
+                  <td><input data-id={{@index}} class="form-control cost" type="number" step="any" disabled value={{this.internal.cost}} /></td>
+                  <td><input data-id={{@index}} class="form-control quantity" type="number" step="any" disabled/></td>
+                </tr>
+              {{/each}}
+              <tr>
+                <td></td>
+                <td></td>
+                <td class="text-right" colspan="2">Solution BD: <span class="total">0</span> &euro;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary results-button" data-toggle="modal" data-target="#resultsModal">
+          View Results
+        </button>
+      </div>
+    </div>
+
+    <!-- Legal Modal -->
+      <div class="modal fade" id="legalModal" tabindex="-1" role="dialog" aria-labelledby="legalModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="legalModalLabel">Info</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+              <h3>MENTIONS LÉGALES</h3>
+
+              <p>Aiguilles sécurité BD Eclipse.", stérile, à usage unique, pour prélevement de sang veineux. Dispositif médical classe lla (directive 93/42/CE), CE 0050. Mandataire UE : BD Plymouth, UK. </p>
+              
+              <p>Aiguilles sécurité BD Eclipse"' SignalTM, avec chambre de visualisation du reflux veineux, stérile, à usage unique, pour prelevement de sang veineux. Dispositif medical classe lia (directive 93/4210E), CE 0086. Mandataire UE : BD Plymouth, UK. </p>
+
+              <p>BD Safety-LokTM - Unité à ailettes, securite, stérile, a usage unique, pour prelevement de sang veineux, activation uni-manuelle. Dispositif médical classe lla (directive 93142/CE), CE 0050. Mandataire UE BD Plymouth, UK. </p>
+               
+              <p>Unité a ailettes securite BD Vacutainer«) Push Button, stérile, à usage unique, pour prelevement de sang veineux, activation par bouton poussoir. Dispositif medical classe lla (directive 93/42/CE), CE 0050. Mandataire UE : BD Plymouth, UK. </p>
+              
+              <p>Pour une bonne utilisation de ces produits, lire attentivement les recommandations d'utilisation. Pris en charge par l'assurance maladie.</p>
+               
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+ 
+
+    <!-- Modal -->
+    <div class="modal fade" id="resultsModal" tabindex="-1" role="dialog" aria-labelledby="resultsModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="resultsModalLabel">Results</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex justify-content-around">
+              <h2>Economies réalisées (€): <span class="difference">0</span></h2>
+              <h2>Soit: <span class="profit">0</span>%</h2>
+            </div>
+            <canvas id="results-chart" width="500px" height="500px">No Data</canvas>
+            <input id="results-email" class="form-control" type="email" placeholder="Email" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="modal fade" id="enterProduct" tabindex="-1" role="dialog" aria-labelledby="enterProductLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="enterProductLabel">Info</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="external table table-bordered">
+              <thead>
+                <tr>
+                  <th>Matériel actuel</th>
+                  <th>Références</th>
+                  <th>Coût unitaire €</th>
+                  <th>Quantités</th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each products}}
+                  <tr>
+                    <td>{{this.name}} {{@index}}</td>
+                    <td><input data-id={{@index}} class="form-control reference" type="text" /></td>
+                    <td><input data-id={{@index}} class="form-control cost" type="number" step="any" disabled value={{this.external.cost}} /></td>
+                    <td><input data-id={{@index}} class="form-control quantity" type="number" step="any" value="20"/></td>
+                  </tr>
+                {{/each}}
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td class="text-right" colspan="2">Coût actuel: <span class="total">0</span> &euro;</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </script>
+
+
+  <script id="modal-container" type="text/x-handlebars-template">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"> 
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          {{#each products}}
+            <img width="100%" src={{this.image}}>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </script>
+
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="modalInputLabel" aria-hidden="true"></div>
+
+  <div id="warning-message">
+    <div id="warningInner">
+      this app is only viewable in landscape mode<br>
+      <img src="images/rotate.png">
+    </div>
+  </div>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(function (registration) {
+          console.log('Service Worker registration successful with scope: ', registration.scope);
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
+    }
+  </script>
+  </body>
+</html>

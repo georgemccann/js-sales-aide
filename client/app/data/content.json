@@ -1,0 +1,143 @@
+{
+  "pages": {
+    "homePage": {
+      "title": "Optimisez vos lignes de perfusion",
+      "subTitle": "",
+      "headerImage" : "images/home.jpg"
+    },
+    "entryTemplate": {
+    "products" :[
+      {
+        "name": "P. simple",
+        "internal": {
+          "reference": "A64",
+          "cost": 0.18
+        },
+        "external": { 
+          "cost": 0.40
+        },
+        "category": "simple",
+        "image": "images/A64.jpg",
+        "referenceImage": "images/A64-reference.jpg",
+        "class": "pSimple"
+      },
+      {
+        "name": "P. simple avec site d'injection",
+        "internal": {
+          "reference": "A65",
+          "cost": 0.2
+        },
+        "external": { 
+          "cost": 0.40
+        },
+        "category": "simple",
+        "image": "images/A65.jpg",
+        "referenceImage": "images/A65-reference.jpg",
+        "class": "pSimpleAvecSiteDinjection"
+      },
+      {
+        "name": "P. 3 voies",
+        "internal": {
+          "reference": "A64-3V",
+          "cost": 0.34
+        },
+        "external": { 
+          "cost": 0.40
+        },
+        "category": "voies",
+        "image": "images/A64-3V.jpg",
+        "referenceImage": "images/A64-3V-reference.jpg",
+        "class": "p3Voies"
+      },
+      {
+        "name": "P. 3 voies avec site d'injection",
+        "internal": {
+          "reference": "A65-3V",
+          "cost": 0.38
+        },
+        "external": { 
+          "cost": 0.40
+        },
+        "category": "voies",
+        "image": "images/A65-3V.jpg",
+        "referenceImage": "images/A65-3V-reference.jpg",
+        "class": "p3VoiesAvecSiteDInjection"
+      },
+      {
+        "name": "P. de sécurité simple",
+        "internal": {
+          "reference": "388000",
+          "cost": 0.35
+        },
+        "external": { 
+          "cost": 0.35
+        },
+        "category": "sécurité",
+        "image": "images/A64.jpg",
+        "referenceImage": "images/A64-reference.jpg",
+        "class": "pDeSecuriteSimple"
+      },
+      {
+        "name": "P. de sécurité 3 voies",
+        "internal": {
+          "reference": ".",
+          "cost": 0.35
+        },
+        "external": { 
+          "cost": 0.39
+        },
+        "category": "sécurité",
+        "image": "images/A64.jpg",
+        "referenceImage": "images/A64-reference.jpg",
+        "class": "pDeSecuriteSimpl3Voies"
+      },
+      {
+        "name": "P. de sécurité avec site d'injection",
+        "internal": {
+          "reference": ".",
+          "cost": 0.35
+        },
+        "external": { 
+          "cost": 0.35
+        },
+        "category": "sécurité",
+        "image": "images/A64.jpg",
+        "referenceImage": "images/A64-reference.jpg",
+        "class": "pDeSecuriteAvecSiteDInjection"
+      },
+      {
+        "name": "P. de sécurité 3 voies avec site d'injection",
+        "internal": {
+          "reference": ".",
+          "cost": 0.35
+        },
+        "external": { 
+          "cost": 0.35
+        },
+        "category": "sécurité",
+        "image": "images/A64.jpg",
+        "referenceImage": "images/A64-reference.jpg",
+        "class": "pDeSecurite3CoiesAvecSiteDInjection"
+      }
+
+    ]
+    },
+    "exampleModal": {
+      "title": "The showModal function",
+      "content": "the show modal function opens a modal, pass the page id to show the content. You can also pass a product category and a product name to display a list of products for a specific category, or an individual product", 
+      "bloodCollectionImage": "images/blood.jpg", 
+      "peripheralVascularAccessImage": "images/blood.jpg", 
+      "injectionPreparationAndAdministrationImage": "images/blood.jpg", 
+      "colors" : {
+        "orange": "Different content for orange",
+        "blue": "We can display different content based on what color is selected. Change the default color in the main.js file",
+        "purple": "Different content for purple",
+        "yellow": "Different content for yellow",
+        "pink": "Different content for pink"
+      }
+    }
+ 
+  
+
+  }
+}

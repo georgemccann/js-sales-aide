@@ -1,0 +1,61 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h1>Nos solutions BD adaptées à vos besoins</h1>
+      <p>L’offre de solution de perfusion est actuellement très diversifiée sur le marché.</p>
+      <p>Depuis quelques années nous observons l’apparition de nouveaux dispositifs de sécurité visant à réduire le risque d’embolie gazeuse pour le patient.</p>
+      <p>Au sein du labo BD, notre volonté est de vous accompagner dans l’optimisation de vos pratiques de soins, en mettant à votre disposition une gamme complète.</p>
+      <p>Cet outil a pour but de vous orienter vers le dispositif le plus adaptés aux besoins dans vos services.</p>
+      <p>Après avoir effectué un ciblage de vos besoins en perfuseurs de sécurité au sein de votre établissement, notre solution génère une économie de XXXX soit plus de XX% de votre budget.</p>
+      <p>Afin de vous accompagner au mieux dans la gestion du changement de vos pratiques de soins, nous avons une équipe de spécialistes à vos côtés.</p>
+      <p>Vous pouvez choisir de participer à notre programme Signature Solution destiné à vous accompagner dans l’évaluation et l’optimisation de vos pratiques de soins.</p>
+      <p>Notre équipe de spécialistes se tient à votre disposition pour :</p>
+      <ul>
+        <li>Expertiser vos pratiques</li>
+        <li>Proposer des solutions d’amélioration</li>
+        <li>Vous aider à les mettre en application</li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+  </div>
+</div>
+
+<script>
+  console.log({{totals}});
+  var external = {{totals.externalCost}}
+  window.addEventListener('load', function() {
+    var ctx = document.getElementById("myChart").getContext('2d');
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ["External Cost", "Internal Cost", "Savings"],
+        datasets: [{
+          label: '€',
+          data: [{{totals.external}}, {{totals.internal}}, {{totals.difference}}],
+          backgroundColor: [
+            '#02396f',
+            '#f17706',
+            '#00b8af'
+          ],
+          borderColor: [
+            '#02396f',
+            '#f17706',
+            '#00b8af'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true
+            }
+          }]
+        }
+      }
+    });
+  });
+</script>
